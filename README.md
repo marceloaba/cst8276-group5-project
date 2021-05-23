@@ -3,10 +3,18 @@ Using MongoDB with Python (web catalog, or similar application)
 
 ## Instructions
 Before run any Python module for this file do the following steps:
-- `Read the next section first`
-- `Install all dependencies with pip`
-- `Create the credentials files in the root folder`
+1. `Clone the repository to your machine`
+2. `Read Python Modules in the project`
+3. `Install all dependencies with pip`
+4. `Create the credentials files in the root folder`
 
+## Repository link
+You can clone directly from the terminal or from PyCharm or any other IDE:
+```bash
+git clone https://github.com/marceloaba/cst8333-canadian-covid19-dataset.git
+```
+
+`After you clone the repository, please create a NEW BRANCH from the main branch for you if you want to make changes and add features to the project and start editing from your own branch.`
 
 ## Python Modules in the project
 - **`mongodb.py`**: This module is used by other modules of the project to connect with the MongoDB database and returns the MongoClient object to retrieve or insert data.
@@ -45,3 +53,14 @@ find_one_restaurant_by_name(restaurants)
 # This line of code can be used to search all documents form the collection that matches the name "Wendy'S"
 find_restaurant_by_name(restaurants)
 ```
+## How to create a database/collection
+To create a database in MongoDB, check or change the values of the variables first, database_name, collection_name and collection_files path.
+```bash
+database_name = "restaurants_db"
+collection_name = "restaurants"
+collection_file = 'collections/restaurants.json'
+```
+
+Run the module **`insert_restaurants_data.py`** to create and insert data from the collection json file.
+
+`You will get a duplicate error if the collection is already created with the same data from the json file`

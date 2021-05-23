@@ -16,9 +16,10 @@ import os
 # Defining database and collection name to connect to mongodb cluster
 database_name = "test_db"
 collection_name = "test"
-credentials_file = "credentials.pwd"
 # Collection json file to be imported into mongodb database
 collection_file = 'collections/restaurants.json'
+# Credentials file path and name
+credentials_file = "credentials.pwd"
 
 # Connect to mongodb with mongodb module
 client = connect_to_mongodb(database_name, credentials_file)
