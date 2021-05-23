@@ -7,11 +7,12 @@ Before run any Python module for this file do the following steps:
 2. `Read Python Modules in the project`
 3. `Install all dependencies with pip`
 4. `Create the credentials files in the root folder`
+5. `Download the MongoDB compass application to manage the database`
 
 ## Repository link
 You can clone directly from the terminal or from PyCharm or any other IDE:
 ```bash
-git clone https://github.com/marceloaba/cst8333-canadian-covid19-dataset.git
+git clone https://github.com/marceloaba/cst8276-group5-project.git
 ```
 
 `After you clone the repository, please create a NEW BRANCH from the main branch for you if you want to make changes and add features to the project and start editing from your own branch.`
@@ -64,3 +65,13 @@ collection_file = 'collections/restaurants.json'
 Run the module **`insert_restaurants_data.py`** to create and insert data from the collection json file.
 
 `You will get a duplicate error if the collection is already created with the same data from the json file`
+
+## How to manage the database using MongoDB Compass
+You can access the database using a desktop application for Mac, Windows and Linux. Download from the link below and follow the instructions:
+1. Download and install MongoDB Compass: https://www.mongodb.com/try/download/compass
+2. After installation, copy the connection string bellow and replace `username`, `password` and `database_name` with the correct information.
+3. Open MongoDB Compass, paste the connection string with the correct information and click connect.
+
+```bash
+mongodb+srv://username:password@cluster0.xmirl.mongodb.net/database_name?retryWrites=true&w=majority'
+```
