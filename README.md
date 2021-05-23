@@ -73,5 +73,5 @@ You can access the database using a desktop application for Mac, Windows and Lin
 3. Open MongoDB Compass, paste the connection string with the correct information and click connect.
 
 ```bash
-mongodb+srv://username:password@cluster0.xmirl.mongodb.net/database_name?retryWrites=true&w=majority'
+mongodb+srv://username:password@cluster0.xmirl.mongodb.net/database_name?retryWrites=true&w=majority
 ```
