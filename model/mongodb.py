@@ -9,6 +9,7 @@ Version: 2.0
 # Import MongoClient from pymongo driver
 from pymongo import MongoClient
 import sys
+import os.path
 
 username = str()
 password = str()
@@ -25,7 +26,7 @@ def get_credentials_from_file(credentials_file):
     global password
     try:
         # Open and reads the credentials.pwd file and save the lines in the username and password
-        with open(credentials_file) as credential_file:
+        with open(os.path.dirname(__file__) + credentials_file) as credential_file:
             credentials = credential_file.readlines()
             username = credentials[0].strip()
             password = credentials[1].strip()
