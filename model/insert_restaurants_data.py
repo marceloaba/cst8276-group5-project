@@ -17,9 +17,9 @@ import os
 database_name = "test_db"
 collection_name = "test"
 # Collection json file to be imported into mongodb database
-collection_file = 'collections/restaurants.json'
+collection_file = '/../collections/test.json'
 # Credentials file path and name
-credentials_file = "credentials.pwd"
+credentials_file = "/../credentials.pwd"
 
 # Connect to mongodb with mongodb module
 client = connect_to_mongodb(database_name, credentials_file)
@@ -29,14 +29,14 @@ db = client[database_name]
 collection = db[collection_name]
 
 
-def create_and_populate_database(collection_data):
+def create_and_populate_database(collection_file):
     """
     This function creates a database and collection in the MongoDB server
-    :param collection_data: Json file with all documents to be inserted in the collection
+    :param collection_file: Json file with all documents to be inserted in the collection
     """
     try:
         # Reads the json file and save the content in the variable documents
-        with open(collection_data, ) as file:
+        with open(os.path.dirname(__file__) + collection_file, ) as file:
             documents = file.readlines()
             file.close()
     except FileNotFoundError as error:
