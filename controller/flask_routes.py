@@ -19,9 +19,19 @@ def hello_world():
     return render_template("index.html")
 
 
+@app.route("/", methods=["GET", "POST"])
+def restaurant_finder_html_form():
+    restaurant_name = request.form['restaurantName']
+    if restaurant_name != "":
+        restaurant_prepared_statement = {"name": restaurant_name}
+        results = restaurant_search.find_many_by_name(restaurant_prepared_statement)
+        if len(results) == 0:
+            results = {"Response": 0}
+    return jsonify(results)
+
+
 @app.route("/api/restaurants/", methods=["GET", "POST"])
 def restaurant_finder():
-    # restaurant_name = request.form['restaurantName']
     restaurant_name = request.args.get("name")
     if restaurant_name != "":
         restaurant_prepared_statement = {"name": restaurant_name}
