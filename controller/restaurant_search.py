@@ -7,6 +7,8 @@ Date: 23/05/2021
 Version: 2.0
 """
 # Import connect_to_mongo function from mongodb module
+from flask import jsonify
+
 from controller import flask_routes
 from model.mongodb import connect_to_mongodb
 
@@ -39,7 +41,11 @@ def find_many_by_name(restaurant_name):
     :param restaurant_name: Name of the restaurant Ex: {"name": "Wendy'S"}
     """
     # Finds all documents with restaurant name
-    results = collection.find(restaurant_name)
+    results = collection.find(restaurant_name, {"_id": 0})
+    restaurant_list = list()
     # Loop through the cursor and print each restaurant found and prints
     for restaurant in results:
-        print(restaurant)
+        restaurant_list.append(restaurant)
+        # print(restaurant)
+
+    return restaurant_list

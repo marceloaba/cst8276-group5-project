@@ -7,7 +7,9 @@ Date: 03/06/2021
 Version: 1.0
 """
 from flask import Flask
-from flask import render_template
+from flask import render_template, request, jsonify
+from controller import restaurant_search
+import bson.json_util as bson
 
 app = Flask(__name__, template_folder="../view/templates")
 
@@ -17,9 +19,16 @@ def hello_world():
     return render_template("index.html")
 
 
-@app.route("/restaurants")
+@app.route("/api/restaurants/", methods=["GET", "POST"])
 def restaurant_finder():
-    return render_template("restaurant_finder.html")
+    # restaurant_name = request.form['restaurantName']
+    restaurant_name = request.args.get("name")
+    if restaurant_name != "":
+        restaurant_prepared_statement = {"name": restaurant_name}
+        results = restaurant_search.find_many_by_name(restaurant_prepared_statement)
+        if len(results) == 0:
+            results = {"Response": 0}
+    return jsonify(results)
 
 
 def start_server(host_ip, debug_mode):

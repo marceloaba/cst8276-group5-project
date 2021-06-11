@@ -14,14 +14,12 @@ from controller import restaurant_search
 # Run the program
 if __name__ == "__main__":
     # Just a restaurant name from the database to test the query and retrieve data from collection
-    restaurants = {"name": "Wendy'S"}
+    # restaurants = {"name": "Wendy'S"}
 
     # Call find_restaurant_by_name and search first restaurant with argument name
-    print("Query example to find a Restaurant in the database: ")
-    restaurant_search.find_one_by_name(restaurants)
-    print()
+    # print("Query example to find a Restaurant in the database: ")
+    # restaurant_search.find_one_by_name(restaurants)
 
     # Call find_restaurant_by_name and search all restaurant with argument name
-    # restaurant_search.find_many_by_name(restaurants)
-
+    # data = restaurant_search.find_many_by_name(restaurants)
     flask_routes.start_server("127.0.0.1", True)
