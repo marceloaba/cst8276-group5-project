@@ -1,30 +1,35 @@
 import {useForm} from 'react-hook-form'
 
-const Form = (setPosition) => {
+/**
+ * Form component to pass the data to get results from the API.
+ * react-hook-form library is used to automatically handle the
+ * submission and the errors. 
+ * @author Apo Ilgun
+ */
+const Form = ({getData}) => {
 
-    const {register, handleSubmit, formState: { errors} } = useForm() //Add handlesubmit
+    const {register, handleSubmit, formState: { errors} } = useForm() 
 
     return (
         <> 
-        <form onSubmit={handleSubmit((data) => {setPosition(data)})}>
-          <input type="text" name='keyword' placeholder='Keywords' {...register('x', {required: false})}/> <br />
+        <form className='form' onSubmit={handleSubmit((data) => {getData(data)})}>
+          <input type="text" name='name' placeholder='Keywords' {...register('name', {required: true})}/> <br /> 
 
-          <input type="text" name='state' placeholder='State' {...register('y', {required: true})}/> <br />
+          <input type="text" name='state' placeholder='State' {...register('state', {required: false})}/> <br />
           {errors.state && <p>State is required</p>}
         
-          <input type="text" name='city' placeholder='City'{...register('city', {required: true})}/> <br />
+          <input type="text" name='city' placeholder='City'{...register('city', {required: false})}/> <br />
           {errors.date && <p>City is required</p>}
 
-          <input type="text" name='postal-code' placeholder='Postal Code' {...register('postal-code', {required: true})}/> <br />
+          <input type="text" name='postal-code' placeholder='Postal Code' {...register('postal-code', {required: false})}/> <br />
           {errors.date && <p>Postal code is required</p>}
 
-          <input type="number" name='radius' placeholder='Radius' {...register('radius', {required: true})}/> <br />
+          <input type="number" name='radius' placeholder='Radius' {...register('radius', {required: false})}/> <br />
           {errors.date && <p>Radius is required</p>}
 
           <input className='button' type="submit" name='submit' value='Feed me'/>
-          
+
         </form>
-    
         </>
     )
 }
