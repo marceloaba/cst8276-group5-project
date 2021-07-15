@@ -18,7 +18,7 @@ const App = () => {
   const [markersToDisplay, setMarkersToDisplay] = useState([])
 
   const getData = (data) => {
-    fetch(`/api/restaurants/?name=${data.name}`, {
+    fetch(`/api/restaurants/?restaurantName=${data.name}&zipCode${data.name}&radius=${data.name}`, {
       method: 'GET',
     }).then(res => {
         return res.json()

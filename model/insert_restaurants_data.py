@@ -8,7 +8,6 @@ Version: 2.0
 """
 # Import connect_to_mongo function from mongodb module
 from mongodb import connect_to_mongodb
-# Import bson.json_util to load/converts each string line (Document) from json file as json
 import bson.json_util as bson
 import sys
 import os

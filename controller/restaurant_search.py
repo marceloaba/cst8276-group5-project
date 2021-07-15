@@ -6,12 +6,7 @@ Course: CST8276 - Spring2021
 Date: 23/05/2021
 Version: 2.0
 """
-# Import connect_to_mongo function from mongodb module
-from flask import jsonify
-
-from controller import flask_routes
 from model.mongodb import connect_to_mongodb
-
 
 # Defining database and collection name to connect to mongodb cluster
 database_name = "restaurants_db"
@@ -47,5 +42,41 @@ def find_many_by_name(restaurant_name):
     for restaurant in results:
         restaurant_list.append(restaurant)
         # print(restaurant)
+
+    return restaurant_list
+
+
+def find_many_by_zip_code(restaurant_name, radius_in_meters, lat, lon):
+    """
+    This method finds ALL documents in the database that has restaurant name
+    :param restaurant_name: Name of the restaurant Ex: {"name": "Wendy'S"}
+    """
+    # Finds all documents with restaurant name
+    # results = collection.find(restaurant_name, {"_id": 0})
+    restaurant_list = list()
+    meters_per_mile = 1609.34
+    maximum_distance = radius_in_meters * meters_per_mile
+    print(f"Restaurant restaurant_name: {restaurant_name}")
+    print(f"Restaurant lat: {lat}")
+    print(f"Restaurant lon: {lon}")
+    print(f"Restaurant radius_in_meters: {radius_in_meters}")
+    print(f"Restaurant maxDistance: {maximum_distance}")
+    if restaurant_name == '':
+        results = collection.find(
+            {'location': {'$nearSphere': {'$geometry': {'type': "Point",
+                                                        'coordinates': [float(lon), float(lat)]},
+                                          '$maxDistance': maximum_distance}}}, {"_id": 0})
+    else:
+        results = collection.find(
+            {'location': {'$nearSphere': {'$geometry': {'type': "Point",
+                                                        'coordinates': [float(lon), float(lat)]},
+                                          '$maxDistance': maximum_distance}},
+             'name': {'$regex': restaurant_name, "$options": "i"}},
+            {"_id": 0})
+
+    # Loop through the cursor and print each restaurant found and prints
+    for restaurant in results:
+        restaurant_list.append(restaurant)
+        print(restaurant)
 
     return restaurant_list
