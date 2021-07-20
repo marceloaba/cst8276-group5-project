@@ -15,13 +15,7 @@ const Form = ({getData}) => {
         <form className='form' onSubmit={handleSubmit((data) => {getData(data)})}>
           <input type="text" name='name' placeholder='Keywords' {...register('name', {required: true})}/> <br /> 
 
-          <input type="text" name='state' placeholder='State' {...register('state', {required: false})}/> <br />
-          {errors.state && <p>State is required</p>}
-        
-          <input type="text" name='city' placeholder='City'{...register('city', {required: false})}/> <br />
-          {errors.date && <p>City is required</p>}
-
-          <input type="text" name='postal-code' placeholder='Postal Code' {...register('postal-code', {required: false})}/> <br />
+          <input type="text" name='postal-code' placeholder='Postal Code' {...register('zipCode', {required: true})}/> <br />
           {errors.date && <p>Postal code is required</p>}
 
           <input type="number" name='radius' placeholder='Radius' {...register('radius', {required: false})}/> <br />

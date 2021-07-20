@@ -18,7 +18,7 @@ const App = () => {
   const [markersToDisplay, setMarkersToDisplay] = useState([])
 
   const getData = (data) => {
-    fetch(`/api/restaurants/?restaurantName=${data.name}&zipCode${data.name}&radius=${data.name}`, {
+    fetch(`/api/restaurants/?restaurantName=${data.name}&zipCode=${data.zipCode}&radius=${data.radius}`, {
       method: 'GET',
     }).then(res => {
         return res.json()
@@ -26,6 +26,7 @@ const App = () => {
          setData(jsonResponse)
          //Looping through all the elements of the markers array, and creating the physical markers
          //using the pre-made leaflet component with JSX.
+         console.log(jsonResponse)
          setMarkersToDisplay(markers.map((marker) => { 
            return <Marker position = {[marker.location.coordinates[1], marker.location.coordinates[0]]}> 
                     <Popup> {marker.name} </Popup>
