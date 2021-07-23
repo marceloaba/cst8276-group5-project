@@ -1,19 +1,20 @@
 """
-This program uses mongodb.py module to connect to a Mongodb Atlas cluster and retrieves data
+This program uses model.py module to connect to a Mongodb Atlas cluster and retrieves data
 from a MongoDB database.
 Author: Group5 members
 Course: CST8276 - Spring2021
 Date: 23/05/2021
 Version: 2.0
 """
-from model.mongodb import connect_to_mongodb
+from model import model
+from geopy.geocoders import Nominatim
 
 # Defining database and collection name to connect to mongodb cluster
 database_name = "restaurants_db"
 collection_name = "restaurants"
 credentials_file = "/../credentials.pwd"
 # Connect to mongodb with mongodb module
-client = connect_to_mongodb(database_name, credentials_file)
+client = model.connect_to_database(database_name, credentials_file)
 # Defining database to work with
 db = client[database_name]
 # Defining collection to work with
@@ -41,42 +42,50 @@ def find_many_by_name(restaurant_name):
     # Loop through the cursor and print each restaurant found and prints
     for restaurant in results:
         restaurant_list.append(restaurant)
-        # print(restaurant)
 
     return restaurant_list
 
 
-def find_many_by_zip_code(restaurant_name, radius_in_meters, lat, lon):
+def geopy_find_coordinates(zip_code):
     """
-    This method finds ALL documents in the database that has restaurant name
+    This method finds the coordinates (latitude and longitude) of a zip code using GeoPy
+    :param zip_code: Zip code used to search the coordinates by GeoPy
+    """
+
+    if zip_code != '':
+        geo_locator = Nominatim(user_agent='myapplication')
+        coordinates = geo_locator.geocode(zip_code, country_codes="US")
+        # If geopy cannot find the coordinates for the zip code we set a default zipcode from Manhattan New York
+        if coordinates is None:
+            coordinates = geo_locator.geocode("10019", country_codes="US")
+            return coordinates
+        else:
+            return coordinates
+
+
+def find_restaurants(restaurant_name, zip_code, radius_in_km):
+    """
+    This method finds all documents using restaurant name, radius near lat and lon
     :param restaurant_name: Name of the restaurant Ex: {"name": "Wendy'S"}
+    :param radius_in_km: Radius in km used to find restaurants
+    :param zip_code: Zipcode used by GeoPy to discover the coordinates
     """
-    # Finds all documents with restaurant name
-    # results = collection.find(restaurant_name, {"_id": 0})
     restaurant_list = list()
-    meters_per_mile = 1609.34
-    maximum_distance = radius_in_meters * meters_per_mile
-    print(f"Restaurant restaurant_name: {restaurant_name}")
-    print(f"Restaurant lat: {lat}")
-    print(f"Restaurant lon: {lon}")
-    print(f"Restaurant radius_in_meters: {radius_in_meters}")
-    print(f"Restaurant maxDistance: {maximum_distance}")
+    meters_per_km = 1000
+    maximum_distance_in_meters = int(radius_in_km) * meters_per_km
+    coordinates = geopy_find_coordinates(zip_code)
+    lat = coordinates.raw['lat']
+    lon = coordinates.raw['lon']
+
     if restaurant_name == '':
-        results = collection.find(
-            {'location': {'$nearSphere': {'$geometry': {'type': "Point",
-                                                        'coordinates': [float(lon), float(lat)]},
-                                          '$maxDistance': maximum_distance}}}, {"_id": 0})
+        restaurants = model.query_restaurants_by_location(collection, maximum_distance_in_meters, lat, lon)
     else:
-        results = collection.find(
-            {'location': {'$nearSphere': {'$geometry': {'type': "Point",
-                                                        'coordinates': [float(lon), float(lat)]},
-                                          '$maxDistance': maximum_distance}},
-             'name': {'$regex': restaurant_name, "$options": "i"}},
-            {"_id": 0})
+        restaurants = model.query_restaurants_by_name_and_location(collection, restaurant_name, maximum_distance_in_meters, lat, lon)
 
     # Loop through the cursor and print each restaurant found and prints
-    for restaurant in results:
+    for restaurant in restaurants:
         restaurant_list.append(restaurant)
         print(restaurant)
 
     return restaurant_list
+

@@ -7,7 +7,7 @@ Date: 23/05/2021
 Version: 2.0
 """
 # Import connect_to_mongo function from mongodb module
-from mongodb import connect_to_mongodb
+from model import connect_to_database
 import bson.json_util as bson
 import sys
 import os
@@ -21,7 +21,7 @@ collection_file = '/../collections/test.json'
 credentials_file = "/../credentials.pwd"
 
 # Connect to mongodb with mongodb module
-client = connect_to_mongodb(database_name, credentials_file)
+client = connect_to_database(database_name, credentials_file)
 # Defining database to work with
 db = client[database_name]
 # Defining collection to work with
