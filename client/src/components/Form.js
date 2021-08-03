@@ -1,4 +1,5 @@
 import {useForm} from 'react-hook-form'
+import Tooltip from './Tooltip/Tooltip'
 
 /**
  * Form component to pass the data to get results from the API.
@@ -14,14 +15,15 @@ const Form = ({getData}) => {
         <> 
         <form className='form' onSubmit={handleSubmit((data) => {getData(data)})}>
           <input type="text" name='name' placeholder='Keywords' {...register('name', {required: true})}/> <br /> 
+          {errors.name && <Tooltip/>}
 
           <input type="text" name='postal-code' placeholder='Postal Code' {...register('zipCode', {required: true})}/> <br />
-          {errors.date && <p>Postal code is required</p>}
+          {errors.zipCode && <Tooltip/>}
 
           <input type="number" name='radius' placeholder='Radius' {...register('radius', {required: false})}/> <br />
-          {errors.date && <p>Radius is required</p>}
+          {errors.radius && <Tooltip/>}
 
-          <input className='button' type="submit" name='submit' value='Feed me'/>
+          <input className='button' type="submit" name='submit' value='Feed me!'/>
 
         </form>
         </>

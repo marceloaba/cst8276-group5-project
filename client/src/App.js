@@ -34,8 +34,6 @@ const App = () => {
          }))
     }).catch((error) => { //If there's no results gotten, error message is displayed on the screen
       console.log(error)
-      const node = document.createTextNode(error);
-      document.querySelector(".error").appendChild(node)
     })
   }
 
